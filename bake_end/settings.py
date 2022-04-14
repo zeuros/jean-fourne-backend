@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import django_heroku
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -146,7 +147,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Auth stuff
-SITE_ID = 3 # Corresponds to site id created in admin
+SITE_ID = int(os.environ['SITE_ID']) # Corresponds to site id created in admin, set env var accordingly
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
