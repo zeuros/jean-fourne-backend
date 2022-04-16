@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'bake_end',
     'allauth', # Tutorial for OAuth: https://www.section.io/engineering-education/django-google-oauth/
     'allauth.account',
     'allauth.socialaccount',
@@ -147,7 +148,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Auth stuff
-SITE_ID = int(os.environ['SITE_ID']) # Corresponds to site id created in admin, set env var accordingly
+SITE_ID = int(os.environ.get('SITE_ID', 3)) # Corresponds to site id created in admin, set env var accordingly
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
