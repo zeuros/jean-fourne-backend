@@ -15,6 +15,9 @@ import django_heroku
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from django.conf import settings
+from django.conf.urls.static import static
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
@@ -28,7 +31,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'bake_end',
-    'allauth', # Tutorial for OAuth: https://www.section.io/engineering-education/django-google-oauth/
+    'allauth',  # Tutorial for OAuth: https://www.section.io/engineering-education/django-google-oauth/
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
@@ -93,7 +95,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bake_end.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
@@ -103,7 +104,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -123,7 +123,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -136,23 +135,25 @@ USE_I18N = True
 USE_TZ = True
 
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 # Auth stuff
-SITE_ID = int(os.environ.get('SITE_ID', 3)) # Corresponds to site id created in admin, set env var accordingly
+SITE_ID = int(os.environ.get('SITE_ID', 3))  # Corresponds to site id created in admin, set env var accordingly
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-
 
 # Heroku env vars configuration
 django_heroku.settings(locals())
