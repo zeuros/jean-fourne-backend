@@ -1,12 +1,16 @@
 from datetime import datetime
 
 from django.db import models
-from django.dispatch.dispatcher import receiver
 from django.db.models.signals import post_delete
+from django.dispatch.dispatcher import receiver
+from django.urls import reverse
+from django.utils.text import slugify
+
+from bake_end import settings
 
 
 def product_image(instance, filename):
-    return 'images/{0}.jpg'.format(instance.slug)
+    return settings.MEDIA_ROOT + '/images/{0}.jpg'.format(instance.slug)
 
 
 def user_images(instance, filename):
@@ -40,6 +44,11 @@ class Client(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, db_index=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Category, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ('name',)
@@ -54,6 +63,7 @@ class Livreur(Client):
 
 class Product(models.Model):
     name = models.CharField(max_length=150, unique=True, null=False, blank=False)
+    slug = models.SlugField(max_length=200, db_index=True, default='none')
     category = models.ManyToManyField(Category, related_name='products')
     price = models.PositiveIntegerField()
     is_available = models.BooleanField(default=True)
@@ -63,6 +73,16 @@ class Product(models.Model):
     image = models.ImageField(upload_to=product_image)
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Product, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('catalog:render_product', kwargs={'id': self.id,
+                                                         'product_slug': self.slug,
+                                                         'category_slug': self.category.slug})
 
 
 class Cart(models.Model):

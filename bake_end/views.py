@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
-from bake_end.models import Client, CartItem
+from bake_end.models import Client, CartItem, Product
 from bake_end.tools import queryset_to_list
 
 
@@ -65,13 +65,13 @@ class ShoppingCartUpdate(View):
 @method_decorator(csrf_exempt, name='dispatch')
 class Categories(View):
     def get(self, request):
-        return JsonResponse(queryset_to_list(Client.objects.values()), status=201, safe=False)
+        return JsonResponse(queryset_to_list(Categories.objects.values()), status=201, safe=False)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
 class Products(View):
     def get(self, request):
-        return JsonResponse(queryset_to_list(Client.objects.values()), status=201, safe=False)
+        return JsonResponse(queryset_to_list(Product.objects.values()), status=201, safe=False)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
