@@ -71,7 +71,12 @@ class Categories(View):
 @method_decorator(csrf_exempt, name='dispatch')
 class Products(View):
     def get(self, request):
-        return JsonResponse(queryset_to_list(Product.objects.values()), status=201, safe=False)
+        products = Product.objects.filter(is_available=True).prefetch_related('categories')
+        products_with_categories = [model_to_dict(p) | {
+            'image': str(p.image),
+            'categories': [cat.name for cat in p.categories.all()]
+        } for p in products]
+        return JsonResponse(products_with_categories, status=201, safe=False)
 
 
 @method_decorator(csrf_exempt, name='dispatch')

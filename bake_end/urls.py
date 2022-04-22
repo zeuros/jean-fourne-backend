@@ -33,7 +33,7 @@ urlpatterns = [
     path('client/<int:pk>/', ClientUpdate.as_view()),
     path('clients/', Clients.as_view(), name="cart"),
     path('products/', Products.as_view()),
-    path('category/', Categories.as_view()),
+    path('categories/', Categories.as_view()),
     path('cart/', ShoppingCart.as_view(), name="cart"),
     path('cart-item/<int:pk>/', ShoppingCartUpdate.as_view()),
 

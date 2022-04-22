@@ -10,7 +10,7 @@ from bake_end import settings
 
 
 def product_image(instance, filename):
-    return settings.MEDIA_ROOT + '/images/{0}.jpg'.format(instance.slug)
+    return f'{settings.MEDIA_ROOT}/images/{instance.slug}.jpg'
 
 
 def user_images(instance, filename):
@@ -64,7 +64,7 @@ class Livreur(Client):
 class Product(models.Model):
     name = models.CharField(max_length=150, unique=True, null=False, blank=False)
     slug = models.SlugField(max_length=200, db_index=True, default='none')
-    category = models.ManyToManyField(Category, related_name='products')
+    categories = models.ManyToManyField(Category, related_name='products') # *categories
     price = models.PositiveIntegerField()
     is_available = models.BooleanField(default=True)
     quantity = models.PositiveIntegerField()
